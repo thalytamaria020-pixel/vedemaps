@@ -1,0 +1,21 @@
+<!--
+  Abra ios/Runner/Info.plist e cole as linhas abaixo logo depois de <dict>
+  (a primeira linha <dict> do arquivo). Precisa de um Mac com Xcode para iOS.
+-->
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>O GPS é usado para mostrar sua posição no mapa e registrar pontos de fiscalização.</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>O GPS é usado em segundo plano para continuar gravando a trilha com a tela desligada.</string>
+<key>UIBackgroundModes</key>
+<array>
+    <string>location</string>
+</array>
+<key>NSCameraUsageDescription</key>
+<string>A câmera é usada para fotografar as ocorrências registradas em campo.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>A galeria é usada para anexar fotos às ocorrências.</string>
+<!-- Permite copiar arquivos .mbtiles pelo app "Arquivos" do iPhone -->
+<key>UIFileSharingEnabled</key>
+<true/>
+<key>LSSupportsOpeningDocumentsInPlace</key>
+<true/>

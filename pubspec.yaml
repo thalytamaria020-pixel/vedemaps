@@ -1,0 +1,62 @@
+name: verdemap
+description: >-
+  VerdeMap - aplicativo de mapeamento e navegação GPS offline
+  para apoio à fiscalização ambiental em campo.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Mapa (renderização de tiles, marcadores, linhas e polígonos)
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+
+  # GPS e bússola
+  geolocator: ^13.0.2
+  flutter_compass: ^0.8.1
+
+  # Banco de dados local (SQLite) e arquivos
+  sqflite: ^2.3.3
+  path_provider: ^2.1.4
+  path: ^1.9.0
+
+  # Desenho de PDF (mapas georreferenciados, como no Avenza)
+  pdfrx: ^2.6.5
+
+  # Fotos, seleção de arquivos e compartilhamento
+  image_picker: ^1.1.2
+  file_picker: ^13.1.0
+  share_plus: ^10.1.4
+
+  # Leitura/escrita de KML, KMZ, ZIP e download de tiles
+  xml: ^6.5.0
+  archive: ^4.0.9
+  http: ^1.2.2
+
+  # Gerenciamento de estado
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Fonte Poppins embutida no app (funciona sem internet). Licença: assets/fonts/OFL.txt
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
