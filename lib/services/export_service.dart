@@ -196,6 +196,8 @@ class ExportService {
 
   /// Abre o menu de compartilhamento do sistema (WhatsApp, e-mail, Drive...).
   static Future<void> share(List<File> files, {String? text}) async {
-    await Share.shareXFiles(files.map((f) => XFile(f.path)).toList(), text: text);
+    await SharePlus.instance.share(
+      ShareParams(files: files.map((f) => XFile(f.path)).toList(), text: text),
+    );
   }
 }
