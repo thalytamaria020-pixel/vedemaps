@@ -35,6 +35,9 @@ jobs:
       - name: Aplicar permissões (GPS, câmera, notificação)
         run: cp plataforma/android/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 
+      - name: Aplicar o ícone do VerdeMap
+        run: cp -r plataforma/android/res/. android/app/src/main/res/
+
       - name: Usar sempre a mesma assinatura
         run: |
           mkdir -p ~/.android
@@ -70,9 +73,5 @@ jobs:
             echo "## Erros encontrados"
             echo '```'
             grep -hE "Error|error:|FAILURE|What went wrong|\.dart:[0-9]+:[0-9]+|Because|version solving failed" log-*.txt 2>/dev/null | head -120
-            echo '```'
-            echo "## Final do log de compilação"
-            echo '```'
-            tail -60 log-3-compilacao.txt 2>/dev/null
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
