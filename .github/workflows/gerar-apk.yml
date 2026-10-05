@@ -1,0 +1,78 @@
+name: Gerar APK
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v5
+
+      - name: Instalar Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Criar a parte Android do projeto
+        run: flutter create --platforms=android --org br.gov.fiscalizacao --project-name verdemap .
+
+      - name: Aplicar permissões (GPS, câmera, notificação)
+        run: cp plataforma/android/AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+
+      - name: Usar sempre a mesma assinatura
+        run: |
+          mkdir -p ~/.android
+          cp plataforma/android/debug.keystore ~/.android/debug.keystore
+
+      - name: Baixar bibliotecas
+        run: flutter pub get 2>&1 | tee log-1-bibliotecas.txt
+
+      - name: Análise do código
+        continue-on-error: true
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings 2>&1 | tee log-2-analise.txt
+
+      - name: Gerar o instalador (APK)
+        run: |
+          flutter build apk --release 2>&1 | tee log-3-compilacao.txt
+          exit ${PIPESTATUS[0]}
+
+      - name: Disponibilizar o APK para download
+        uses: actions/upload-artifact@v4
+        with:
+          name: VerdeMap-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+      - name: Testes automáticos
+        continue-on-error: true
+        run: flutter test 2>&1 | tee log-4-testes.txt
+
+      - name: Mostrar os erros na página
+        if: always()
+        run: |
+          {
+            echo "## Erros encontrados"
+            echo '```'
+            grep -hE "Error|error:|FAILURE|What went wrong|\.dart:[0-9]+:[0-9]+|Because|version solving failed" log-*.txt 2>/dev/null | head -120
+            echo '```'
+            echo "## Final do log de compilação"
+            echo '```'
+            tail -60 log-3-compilacao.txt 2>/dev/null
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
