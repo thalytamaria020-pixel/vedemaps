@@ -424,7 +424,10 @@ class _MapScreenState extends State<MapScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Icon(Icons.travel_explore, size: 40),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Image.asset('assets/images/logo.png', width: 56, height: 56),
+                ),
                 const SizedBox(height: 8),
                 Text('VerdeMap', style: Theme.of(context).textTheme.titleLarge),
                 Text('${app.points.length} pontos · ${app.tracks.length} trilhas · '

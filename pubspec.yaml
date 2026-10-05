@@ -49,6 +49,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/images/logo.png
+
   # Fonte Poppins embutida no app (funciona sem internet). Licença: assets/fonts/OFL.txt
   fonts:
     - family: Poppins
